@@ -15,11 +15,14 @@ LLAMA 3.1, Open AI, Claude Sonnet etc
 - npm link
     - then run "dev-ai" cli from anywhere of the terminal 
 ```
-## Want to contribute ?
 
-- Create a PR for the existing [issues](https://github.com/dev-ai-agent/dev-ai-agent/issues)
-- Create issue for feature requests and bugs. We will work on this ASAP to fix it. [Project page](https://github.com/orgs/dev-ai-agent/projects/1)
-
+### Setup llama3.1 on ollama locally to use this project
+- install ollama from the website https://ollama.com/download
+- Open terminal type `ollama pull llama3.1`
+- After Installation type `ollama serve`
+- To verify the installation `ollama list`
+- Run the model `ollama run llama3.1`
+- Keep it running, now go the git repo run the as the above intructions.
 
 ## Demo video 
 link : https://drive.google.com/file/d/1vHCobBLiFTpfnp9BrNf3HYGlb74tRUn0/view?usp=sharing 
@@ -34,11 +37,3 @@ link : https://drive.google.com/file/d/1vHCobBLiFTpfnp9BrNf3HYGlb74tRUn0/view?us
 
 
 
-
-##Setup llama3.1 on ollama locally to use this project
-- install ollama from the website https://ollama.com/download
-- Open terminal type `ollama pull llama3.1`
-- After Installation type `ollama serve`
-- To verify the installation `ollama list`
-- Run the model `ollama run llama3.1`
-- Keep it running, now go the git repo run the as the above intructions.

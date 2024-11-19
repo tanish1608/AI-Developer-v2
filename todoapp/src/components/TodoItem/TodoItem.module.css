@@ -1,0 +1,14 @@
+.checkbox {
+accent-color: #3498db;
+}
+
+.title {
+font-weight: bold;
+text-decoration: underline;
+}
+
+.inputField {
+width: 100%;
+padding: 10px;
+border: none;
+}

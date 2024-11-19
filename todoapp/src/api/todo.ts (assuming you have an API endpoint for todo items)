@@ -1,0 +1,6 @@
+export const getTodo = (id: number) => axios.get(`/api/todo/${id}`);
+export const putTodo = (id: number, data: { title: string }) =>
+axios.put(`/api/todo/${id}`, data);
+export const patchTodo = (id: number, data: { completed: boolean }) =>
+axios.patch(`/api/todo/${id}`, data);
+export const deleteTodo = (id: number) => axios.delete(`/api/todo/${id}`);

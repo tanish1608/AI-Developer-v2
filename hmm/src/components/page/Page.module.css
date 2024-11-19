@@ -1,0 +1,14 @@
+.buttonContainer {
+display: flex;
+flex-wrap: wrap;
+justify-content: space-around;
+}
+
+.button {
+width: 40px;
+height: 40px;
+border-radius: 50%;
+background-color: #fff;
+border: none;
+cursor: pointer;
+}

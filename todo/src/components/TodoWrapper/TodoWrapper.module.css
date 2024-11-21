@@ -1,0 +1,9 @@
+.todoList {
+margin-bottom: 20px;
+}
+
+.todoItem {
+background-color: #f0f0f0;
+padding: 10px;
+border-radius: 8px;
+}

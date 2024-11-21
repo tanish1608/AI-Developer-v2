@@ -2,7 +2,7 @@
 import dotenv from 'dotenv';
 import { askAppDetails, askQuestion } from './utils/interaction.js';
 import inquirer from 'inquirer';
-import { createNextAppWithProgress } from './utils/appCreation.js';
+import { createReactAppWithProgress } from './utils/appCreation.js';
 import { chat } from './utils/aiHandler.js';
 import { executePlan } from './utils/planExecutor.js';
 import { installModulesFromResponse } from './utils/moduleInstaller.js';
@@ -13,12 +13,17 @@ import { dependencyPrompt } from './prompt/index.js';
 const messages = [
   {
     role: 'system',
-    content: `You are a developer agent tasked with generating code for a Next.js app or component based on user request on creating app or component or feature.
-      - No special format required in output.
-      - High imp i want entire implementaion do leave any block empty for me to excute
-      - High imp rule: i am using "FILE: " so all file name shuld be in this format "FILE: [file name]" 
-      - High imp rule: iam using  \`\`\` to extact code so maintain that 
-      - Do not use ** any formating 
+    content: `You are a highly skilled developer agent specializing in generating code for React.js frontend projects based on user requests.
+      - Your task is to generate a complete implementation of React.js applications, components, or features as requested by the user.
+      - Follow these rules strictly:
+        1. High priority: Provide the **entire implementation**. Do not leave any sections incomplete or placeholders like "TODO".
+        2. All file outputs must use the format "FILE: [file name]". Ensure correct and logical file structuring.
+        3. Encapsulate all code blocks using \`\`\` (triple backticks) for easy extraction.
+        4. Do not use any additional formatting such as **bold** or markdown styles outside of \`\`\`.
+        5. If additional setup, commands, or dependencies are required (e.g., \`npm install\` or \`vite\`), provide clear instructions alongside the code.
+        6. Adhere to modern React.js best practices and include all necessary imports, exports, and configurations.
+      - Aim for clarity and efficiency. Provide clean and modular code following React.js conventions.
+      - If the user input lacks clarity, ask for additional details before proceeding.
     `,
   },
 ];
@@ -53,32 +58,87 @@ function main(args) {
 
           console.log('\nRequesting development plan from AI...\n');
 
-          //Step 2: Ask the AI for a structured JSON plan
           messages.push({
             role: 'user',
-            content: `Please provide a detailed plan for creating a ${user_input}.
-                      Ensure the response is in JSON format and includes components, pages, and APIs that need to be created.
-                      - important: only provide plan for now no code for next response.
-                      - this is next js project so page component do not contain any state logic in consume appWrapper component
-                      - Here is the plan structure:
-                      - Create the entire outline of the project with folder stracture required components and page for the app
-                      example response:
-
+            content: `Please provide a detailed plan for creating a React.js application based on the following requirements: ${user_input}.
+                      - Ensure the response is in JSON format and includes the following:
+                        1. **Components**: Define the reusable building blocks for the app. Each component should have a name and description of its purpose or logic.
+                        2. **Pages**: Outline the main pages of the application, including the routing setup in \`App.js\`. Each page should describe how it integrates components, fulfills its functionality, and how it will be linked to other pages using React Router.
+                        3. **Folder Structure**: Provide a structured folder layout for the project, detailing where components, assets, styles, and utilities should be placed.
+                        4. **APIs**: If applicable, mention the APIs the app will consume and their purpose.
+                      - Important Guidelines:
+                        1. **Do Not** provide any code at this stage; only outline the plan.
+                        2. Components should be modular and designed to support separation of concerns.
+                        3. Pages should integrate components, implement routing via React Router in \`App.js\`, and fulfill their intended functionality.
+                        4. Adhere to React.js best practices for file naming, folder structuring, and modularity.
+                      - Example Response:
+                      
                       ##### PLAN example output:
                       \`\`\`json
                       {
-                        "apis": [
-                          { "name": "APIName", "description": "create the api desgin before start of the app" }
-                        ],
                         "components": [
-                          { "name": "ComponentName", "description": "create the component and consume the api if required for this building block" }
+                          {
+                            "name": "Header",
+                            "description": "A reusable header component with navigation and branding. It will contain links for routing to different pages in \`App.js\`."
+                          },
+                          {
+                            "name": "Card",
+                            "description": "A generic card component to display information blocks in a grid layout on the Home page."
+                          }
                         ],
                         "pages": [
-                          { "name": "PageName", "description": "consume the compnent created before and build app" }
+                          {
+                            "name": "HomePage",
+                            "description": "The landing page that includes the Header component and a grid of Card components. It will be the default route in the app ('/')."
+                          },
+                          {
+                            "name": "AboutPage",
+                            "description": "A page providing details about the application. It will be linked from the Header as '/about'."
+                          },
+                          {
+                            "name": "ContactPage",
+                            "description": "A page where users can contact the app creators. It will be linked from the Header as '/contact'."
+                          }
                         ],
-                      }`,
+                        "folderStructure": {
+                          "src": {
+                            "components": ["Header", "Card"],
+                            "pages": ["HomePage", "AboutPage", "ContactPage"],
+                            "styles": ["global.css", "HomePage.css", "AboutPage.css"],
+                            "utils": []
+                          }
+                        },
+                        "apis": [
+                          {
+                            "name": "getCards",
+                            "description": "Fetches data for populating the Card components in the HomePage grid."
+                          }
+                        ],
+                        "appRouting": {
+                          "description": "In \`App.js\`, set up React Router to manage the routes between different pages.",
+                          "routes": [
+                            {
+                              "path": "/",
+                              "component": "HomePage",
+                              "description": "Default route for the HomePage."
+                            },
+                            {
+                              "path": "/about",
+                              "component": "AboutPage",
+                              "description": "Route for the AboutPage, linked via the Header."
+                            },
+                            {
+                              "path": "/contact",
+                              "component": "ContactPage",
+                              "description": "Route for the ContactPage, linked via the Header."
+                            }
+                          ],
+                          "example": "In \`App.js\`, use \`react-router-dom\` to create \`Routes\` for each page and \`Link\` for navigation."
+                        }
+                      }
+                      \`\`\`
+                      `
           });
-
           let plan;
 
           try {
@@ -107,7 +167,7 @@ function main(args) {
           );
 
           // setep 2: create a folder
-          await createNextAppWithProgress(appDetails.appName);
+          await createReactAppWithProgress(appDetails.appName);
 
           // Step 3: Execute the plan based on the AI’s JSON response
           await executePlan(plan, appDetails.appName, messages);

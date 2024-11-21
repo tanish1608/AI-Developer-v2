@@ -1,0 +1,22 @@
+.title {
+font-weight: bold;
+}
+
+.list {
+list-style: none;
+padding: 0;
+margin: 0;
+}
+
+.item {
+display: flex;
+align-items: center;
+gap: 16px;
+}
+
+.deleteButton {
+background-color: #ff0000;
+color: #fff;
+border: none;
+cursor: pointer;
+}

@@ -1,10 +1,8 @@
 import { chat } from "./aiHandler.js";
 import { processResponse } from "./fileManager.js";
-import {componentPrompt,pagePrompt,apiPrompt,dependencyPrompt} from '../prompt/index.js'
+import { componentPrompt, pagePrompt, apiPrompt, dependencyPrompt, routingPrompt } from '../prompt/index.js';
 
 export async function executePlan(plan, appName, messages) {
-
-
 
   // Process APIs
   if (plan.apis && plan.apis.length > 0) {
@@ -30,13 +28,11 @@ export async function executePlan(plan, appName, messages) {
       await processResponse(aiResponse.content, appName);
     }
   }
-  
+
   // Process components
   if (plan.components && plan.components.length > 0) {
     for (let component of plan.components) {
-      console.log(
-        `\nCreating Component: ${component.name} - ${component.description}\n`
-      );
+      console.log(`\nCreating Component: ${component.name} - ${component.description}\n`);
 
       messages.push({
         role: "user",
@@ -84,5 +80,27 @@ export async function executePlan(plan, appName, messages) {
     }
   }
 
+  // Process routing setup
+  if (plan.routing && plan.routing.length > 0) {
+    console.log(`\nSetting up Routing and Navigation`);
 
+    // Add the routing setup to the app.js
+    messages.push({
+      role: "user",
+      content: `${routingPrompt}
+      
+      Generate the routing code for React.js using simple JavaScript and CSS. Ensure routing functionality is set up correctly in the App.js file with basic links for navigation.`,
+    });
+
+    const aiResponse = await chat(messages);
+
+    // Append AI response to the messages for context
+    messages.push({
+      role: "assistant",
+      content: aiResponse.content,
+    });
+
+    // Process the AI response and create the routing setup
+    await processResponse(aiResponse.content, appName);
+  }
 }

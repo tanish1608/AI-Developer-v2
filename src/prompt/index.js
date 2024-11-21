@@ -1,316 +1,311 @@
 const componentPrompt = `
-You are a developer agent tasked with creating a React component using TypeScript for a Next.js app. The component should include the following:
+You are a developer agent tasked with creating a React component using JavaScript for a React.js app. The component should include the following:
 
-1. Component file (\`.tsx\`):
-  - The main component logic should be defined here using TypeScript and Tailwind CSS.
+1. Component file (\`.js\`):
+  - The main component logic should be defined here using plain JavaScript and regular CSS.
   - If any state or effects are required, ensure they are handled using \`useState\` and \`useEffect\`.
-  - Ensure the component has appropriate props typing by creating a \`types.ts\` file for prop types.
-  - Import Tailwind CSS classes for styling, and also include a separate \`.module.css\` file if additional styles are required.
-  - no code comments for any file type.
+  - Import a separate \`.module.css\` file for styling.
+  - Do not include any code comments in the output.
 
-2. Type Definitions (\`types.ts\`):
-  - Define the prop types for the component inside a \`types.ts\` file in the same directory as the component.
-  - Use TypeScript interfaces to define the types.
+2. CSS Module (\`.module.css\`):
+  - Define additional CSS styling in a \`.module.css\` file and import it inside the component file.
+  - Use regular CSS class names with descriptive names.
 
-3. CSS Module (\`.module.css\`):
-  - If required, define additional CSS styling in a \`.module.css\` file and import it inside the component file.
-  - no code comments for any file type.
+3. Component Output Example:
+    - I want the entire logic end-to-end.
+    - You should implement state logic and other interaction logic fully.
+    - Do not leave logic implementation as empty.
+    - High-importance rule: Use the format "FILE: [file name]" for all file names.
+    - High-importance rule: Use \`\`\` to enclose code blocks for easy extraction.
+    - The component should include an \`index.js\` file for modular imports.
 
-Component:
-    - Ensure the file includes "use client" at the top if the component contains client-side logic.
-    - Example structure for the component file:
+    ### Component Output Format Example:
 
- 4. Code Output Example: Ensure the output follows this format for any app:
-    - i want entire logic end to end
-    - you should be implement state logic and other intraction logic
-    - Do not leave logic implementation as empty
-    - High imp rule: i am using "FILE: " so all file name shuld be in this format "FILE: [file name]" 
-    - High imp rule: iam using  \`\`\` to extact code so maintain that
-    - component should have index.ts
-    
-    ### components Output Format example:
-
-    FILE: src/components/weatherForecast/WeatherForecast.tsx
-    \`\`\`typescript
-    "use client";
-    import axios from "axios";
+    FILE: src/components/weatherForecast/WeatherForecast.js
+    \`\`\`javascript
     import { useState, useEffect } from "react";
-    import { ForecastProps } from "@/types/WeatherForecastType";
-    import style from "./WeatherForecast.module.css";
+    import styles from "./WeatherForecast.module.css";
 
-    export default function WeatherForecast({ location }: ForecastProps) {
+    function WeatherForecast({ location }) {
       const [forecastData, setForecastData] = useState(null);
       const [error, setError] = useState(null);
 
       useEffect(() => {
         // Fetch weather data using location prop
-        axios.get(\`/api/weather?location=\${location}\`)
-          .then(response => setForecastData(response.data))
-          .catch(error => setError(error));
+        fetch(\`/api/weather?location=\${location}\`)
+          .then((response) => response.json())
+          .then((data) => setForecastData(data))
+          .catch((error) => setError(error));
       }, [location]);
 
       return (
-        <div className="flex flex-col gap-4">
-          <h2 className="text-xl font-bold">5-Day Forecast</h2>
-          <ul className={style.container}>
-            {forecastData ? forecastData.map(item => (
-              <li key={item.date}>{item.temperature} °C</li>
-            )) : <p>Loading...</p>}
+        <div className={styles.container}>
+          <h2>5-Day Forecast</h2>
+          {error && <p className={styles.error}>Error fetching data</p>}
+          <ul>
+            {forecastData ? (
+              forecastData.map((item) => (
+                <li key={item.date}>
+                  {item.date}: {item.temperature}°C
+                </li>
+              ))
+            ) : (
+              <p>Loading...</p>
+            )}
           </ul>
         </div>
       );
     }
+
+    export default WeatherForecast;
     \`\`\`
 
-    FILE: src/components/weatherForecast/index.ts
-    \`\`\`typescript
-    import WeatherForecast from './WeatherForecast";
-    export WeatherForecast;
+    FILE: src/components/weatherForecast/index.js
+    \`\`\`javascript
+    import WeatherForecast from "./WeatherForecast";
+    export default WeatherForecast;
+    \`\`\`
 
- 
     FILE: src/components/weatherForecast/WeatherForecast.module.css
     \`\`\`css
     .container {
       max-width: 300px;
       margin: 40px auto;
       color: #000;
-    }
-    \`\`\`
-  
-    FILE: src/types/WeatherForecastType.ts
-    \`\`\`typescript
-    export interface ForecastProps {
-      location: string;
+      font-family: Arial, sans-serif;
     }
 
-    export interface WeatherData {
-      date: string;
-      temperature: number;
+    .error {
+      color: red;
     }
     \`\`\`
 
-    
-
-
-Make sure all files are created with valid code, and ensure proper folder structure as shown in the example.
+Make sure all files are created with valid code and proper folder structure, as shown in the example.
 `;
 
 const pagePrompt = `
-You are a developer agent tasked with creating a Next.js page using TypeScript. The page should include the following:
+You are a developer agent tasked with creating a React.js page that connects to a routing setup in \`App.js\`. Follow these requirements:
 
-1. Page file (\`.tsx\`):
-   - The page must import and render pre-existing components.
-   - Ensure the page does not contain any state or side-effect logic (no \`useState\`, \`useEffect\`, or other hooks).
-   - The page should import components and use Tailwind CSS for layout or basic styling.
-   - Use existing modular CSS if the component has any.
+1. **Page Creation**:
+   - Create a separate React component for the page.
+   - Ensure the page contains meaningful content (e.g., heading, description, and other elements as required).
+   - No state logic or hooks (e.g., \`useState\`, \`useEffect\`) should be included in the page itself.
 
-2. CSS or Tailwind for Page Layout:
-   - Use Tailwind CSS for layout, positioning, and responsive behavior (e.g., flex, grid, padding, margins).
-   - You can include minimal additional custom styles via a \`.module.css\` file, if needed, for specific elements in the page.
-   - Make sure the CSS file is placed in the correct location and imported in the page as necessary.
+2. **Routing Integration**:
+   - Ensure the created page component is linked in \`App.js\`.
+   - Add a route in \`App.js\` using \`react-router-dom\` to navigate to the created page.
+   - Update the navigation bar in \`App.js\` to include a link to the new page.
 
-3. Only create Page wrapper and import the before created child component and build app.
-    - no code comments for any file type.
-    - no state logic goes inside the page component as that is stateless page 
-    - any logic reated should be in mainwrapper if required
-       
-### Page Output Format example:
+3. **File Structure**:
+   - Place the page component file inside a folder named after the page in the \`src/pages\` directory.
+   - Include a \`.css\` file for styling the page, and ensure the styles are imported into the page component.
 
-  FILE: src/components/weather/weatherWrapper.tsx
-  \`\`\`typescript
-  "use client";
-  import axios from "axios";
-  import { useState, useEffect } from "react";
-  import WeatherForecast from "@/types/WeatherForecastType";
-  import WeatherForecast from "@/components/WeatherForecast";
-  import style from "./WeatherForecast.module.css";
+4. **Example Output Format**:
+   
+   FILE: src/pages/About/About.js
+   \`\`\`javascript
+   import React from "react";
+   import "./About.css";
 
-  export default function weatherWrapper({ location }: ForecastProps) {
-    // entire app logic 
-    const [forecastData, setForecastData] = useState(null);
-    const [error, setError] = useState(null);
+   export default function About() {
+     return (
+       <div className="about-container">
+         <h1>About Us</h1>
+         <p>
+           Welcome to the About page! Here, we provide information about our
+           application and its purpose.
+         </p>
+       </div>
+     );
+   }
+   \`\`\`
 
-    useEffect(() => {
-      // Fetch weather data using location prop
-      axios.get(\`/api/weather?location=\${location}\`)
-        .then(response => setForecastData(response.data))
-        .catch(error => setError(error));
-    }, [location]);
+   FILE: src/pages/About/About.css
+   \`\`\`css
+   .about-container {
+     max-width: 800px;
+     margin: 20px auto;
+     padding: 20px;
+     background-color: #f0f0f0;
+     border-radius: 8px;
+     text-align: center;
+   }
 
-    return (
-      <div className="mx-5 flex h-16 w-full max-w-screen-xl items-center justify-between">
-        <WeatherForecast/>
-      </div>
-    );
-  }
-  \`\`\`
+   h1 {
+     font-size: 32px;
+     color: #333;
+   }
 
-  FILE: src/components/weatherWrapper/index.ts
-  \`\`\`typescript
-  import weatherWrapper from './weatherWrapper";
-  export weatherWrapper;
-  \`\`\`
+   p {
+     font-size: 18px;
+     color: #666;
+   }
+   \`\`\`
 
-    
-    FILE:src/app/weather/page.tsx 
-    \`\`\`typescript
-    import weatherWrapper from "@/components/weatherWrapper";
-    import styles from "./Weather.module.css"; 
+   FILE: src/App.js (Updated to Include the Page)
+   \`\`\`javascript
+   import React from "react";
+   import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+   import Home from "./pages/Home/Home";
+   import About from "./pages/About/About";
+   import Contact from "./pages/Contact/Contact";
+   import "./App.css";
 
-    export default function WeatherPage() {
-      return (
-          <div className={\`container mx-auto p-4 \${styles.weatherContainer}\`}>
-            <h1 className="text-3xl font-bold">Weather Report</h1>
-            <weatherWrapper/>  
-          </div>
-      );
-    }
-    \`\`\`
-  
-    FILE: src/app/weather/Weather.module.css
-    \`\`\`css
-    .weatherContainer {
-      background-color: #f0f0f0; 
-      padding: 20px;
-      border-radius: 8px;
-    }
-    \`\`\`
-    
+   function App() {
+     return (
+       <Router>
+         <div className="App">
+           <nav className="App-nav">
+             <Link to="/">Home</Link>
+             <Link to="/about">About</Link>
+             <Link to="/contact">Contact</Link>
+           </nav>
+           <div className="App-content">
+             <Routes>
+               <Route path="/" element={<Home />} />
+               <Route path="/about" element={<About />} />
+               <Route path="/contact" element={<Contact />} />
+             </Routes>
+           </div>
+         </div>
+       </Router>
+     );
+   }
 
-    FILE:src/app/layout.tsx 
-    \`\`\`typescript
-    import "./globals.css";
+   export default App;
+   \`\`\`
 
-    export default function PageLayout({
-      children,
-    }: {
-      children: React.ReactNode;
-    }) {
-      return (
-        <html lang="en">
-        <body className="bg-white-800">
-          <div className="h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
-            <header className="bg-gray-800 shadow tx-white">
-              <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                <h1 className="text-3xl tracking-tight text-black-900">
-                  Dashboard
-                </h1>
-              </div>
-            </header>
-            <main className="flex min-h-screen w-full flex-col items-center justify-center text-black">
-              {children}
-            </main>
-          </div>
-        </body>
-      </html>
-      );
-    }
-    \`\`\`
+   FILE: src/App.css (Updated if Needed)
+   \`\`\`css
+   .App {
+     text-align: center;
+   }
 
+   .App-nav {
+     display: flex;
+     justify-content: center;
+     gap: 20px;
+     background-color: #282c34;
+     padding: 10px;
+   }
+
+   .App-nav a {
+     color: white;
+     text-decoration: none;
+     font-weight: bold;
+   }
+
+   .App-nav a:hover {
+     text-decoration: underline;
+   }
+
+   .App-content {
+     margin-top: 20px;
+   }
+   \`\`\`
+
+5. **Validation**:
+   - Verify that the page component renders correctly when accessed via its route.
+   - Ensure the link in the navigation bar works properly to navigate to the page.
+   - Maintain clean and readable code, without placeholder or unused content.
 `;
-
 const apiPrompt = `
-You are a developer agent tasked with creating a Next.js API route using TypeScript. The API route should include the following:
-   - The API route should be placed under the \`src/pages/api/\` folder.
-   - The route must handle different HTTP methods (GET, POST, etc.) using \`req.method\` to switch between them.
-   - The API should respond with appropriate status codes (e.g., 200 for success, 400 for bad requests, 500 for server errors).
-   - Include request body validation (for POST, PUT, etc.) and return meaningful error messages if validation fails.
-   - If the API interacts with external services (e.g., databases or third-party APIs), use asynchronous functions and proper error handling (try-catch).
-   - Use TypeScript for typing the request and response objects.
-   - Define any request/response types or data structures in a \`types.ts\` file located in the same directory as the API route.
+You are a developer agent tasked with creating a Next.js API route using TypeScript. The API route should meet the following requirements:
+
+### 1. **API Route Structure**:
+   - The API route must be placed in the \`src/pages/api/\` directory.
+   - Handle multiple HTTP methods (e.g., GET, POST, DELETE) using \`req.method\` to distinguish between them.
+   - The API should respond with the appropriate status codes, such as:
+     - 200 for successful GET requests
+     - 201 for successful POST requests
+     - 204 for successful DELETE requests
+     - 400 for bad requests (e.g., missing required fields)
+     - 500 for server errors
+
+### 2. **Request Validation**:
+   - Validate the request body for POST, PUT, or PATCH methods. If validation fails, respond with a 400 status and an error message.
+   - Ensure proper error handling using try-catch blocks for asynchronous operations and respond with appropriate error messages (500 status for server errors).
+   
+### 3. **TypeScript Integration**:
+   - Use TypeScript to type both the request and response objects.
+   - Define and import any request/response types or data structures in a \`types.ts\` file located in the same directory as the API route.
    - Use TypeScript interfaces to define these types.
-    - The file should handle different HTTP methods and respond with appropriate status codes. Example structure for the API route file:
- 
-    4. Code Output Example: Ensure the output follows this format for any app:
-    - i want entire logic end to end
-    - you should be implement state logic and other intraction logic
-    - Do not leave logic implementation as empty
-    - High imp rule: i am using "FILE: " so all file name shuld be in this format "FILE: [file name]" 
-    - High imp rule: iam using  \`\`\` to extact code so maintain that
-    - I want entire api logic inside one single file
-    - no code comments for any file type.
 
-### API Output Format example:
+### 4. **Asynchronous Operations**:
+   - If the API interacts with external services (e.g., databases or third-party APIs), use asynchronous functions and async/await syntax.
+   - Ensure proper error handling for these operations to prevent unhandled exceptions.
 
-    FILE: src/app/api/todos.ts
-    \`\`\`typescript
-    import { NextApiRequest, NextApiResponse } from 'next';
-    import { Todo } from './types/TodoType';
+### 5. **Example API Route Logic**:
 
-    let todos: Todo[] = [];
+#### FILE: src/pages/api/todos.ts
+\`\`\`typescript
+import { NextApiRequest, NextApiResponse } from 'next';
+import { Todo } from './types/TodoTypes';
 
-    export default function handler(req: NextApiRequest, res: NextApiResponse) {
+let todos: Todo[] = [];
 
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': "",
-      },
-      body: JSON.stringify({
-        model: 'gpt-4', // Use the correct model name
-        messages: [
-          {
-            role: 'user',
-            content: "promt text for chatgpt",
-          },
-        ],
-      }),
-    });
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    switch (req.method) {
+      case 'GET':
+        return res.status(200).json(todos);
 
-  const data = await response.json();
+      case 'POST':
+        const { title, completed } = req.body;
 
-      switch (req.method) {
-        case 'GET':
-          res.status(200).json(todos);
-          break;
+        if (!title) {
+          return res.status(400).json({ error: 'Title is required' });
+        }
 
-        case 'POST':
-          const { title, completed } = req.body;
-          if (!title) {
-            res.status(400).json({ error: 'Title is required' });
-          } else {
-            const newTodo: Todo = {
-              id: Date.now().toString(),
-              title,
-              completed: completed || false,
-            };
-            todos.push(newTodo);
-            res.status(201).json(newTodo);
-          }
-          break;
+        const newTodo: Todo = {
+          id: Date.now().toString(),
+          title,
+          completed: completed || false,
+        };
 
-        case 'DELETE':
-          const { id } = req.body;
-          todos = todos.filter(todo => todo.id !== id);
-          res.status(204).end();
-          break;
+        todos.push(newTodo);
+        return res.status(201).json(newTodo);
 
-        default:
-          res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
-          res.status(405).end(\`Method \${req.method} Not Allowed\`);
-      }
+      case 'DELETE':
+        const { id } = req.body;
+        todos = todos.filter(todo => todo.id !== id);
+        return res.status(204).end();
+
+      default:
+        res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
+        return res.status(405).json({ error: \`Method $req.method} Not Allowed\` });
     }
-    \`\`\`
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+\`\`\`
 
-    FILE: src/api/types/TodoTypes.ts
-    \`\`\`typescript
-    export interface Todo {
-      id: string;
-      title: string;
-      completed: boolean;
-    }
-    \`\`\`
+#### FILE: src/pages/api/types/TodoTypes.ts
+\`\`\`typescript
+export interface Todo {
+  id: string;
+  title: string;
+  completed: boolean;
+}
+\`\`\`
 
-3. Validation:
-   - Ensure request body validation for required fields, returning a 400 status code for invalid or incomplete requests.
-   - Handle exceptions using try-catch blocks and respond with appropriate error messages (500 for server errors).
+### 6. **Error Handling and Status Codes**:
+   - Ensure the API handles validation errors and server errors appropriately.
+   - Use a 400 status code for bad requests (e.g., missing fields) and a 500 status code for server errors.
+   - Return meaningful error messages in the response body for clarity.
 
-4. Asynchronous Operations:
-   - If the API interacts with a database or external service, use asynchronous functions (async/await) for handling these operations.
-   - Ensure proper error handling and status codes for success or failure.
+### 7. **Testing the API**:
+   - Test the route by making requests using different HTTP methods (GET, POST, DELETE) to ensure the API behaves as expected:
+     - A GET request should return the list of todos.
+     - A POST request should add a new todo to the list.
+     - A DELETE request should remove a todo by ID.
+
+---
+
+Ensure the API route is well-structured, error-handled, and uses TypeScript effectively for type safety. The example above demonstrates how to handle different HTTP methods, request validation, and response formatting.
 `;
-
 const dependencyPrompt = `
 You are a developer agent tasked with generating the list of required modules for a Next.js project. The modules should be identified based on the components, pages, or APIs that are being generated. 
 
@@ -338,4 +333,96 @@ Provide the list of required modules in the following format:
 The output should only include the required modules and their versions. Do not include any extra explanations or comments. Use the latest stable versions unless a specific version is necessary for compatibility.
 `;
 
-export { componentPrompt, pagePrompt, apiPrompt, dependencyPrompt };
+const routingPrompt = `
+You are a developer agent tasked with modifying the \`App.js\` file of a React.js project to include routing and navigation using \`react-router-dom\`. Follow these requirements:
+
+1. Add \`BrowserRouter\` to enable routing in the application.
+2. Create routes for three pages:
+   - **Home**: The main landing page.
+   - **About**: A page displaying information about the app.
+   - **Contact**: A page with contact details.
+3. Include a navigation bar at the top of the application with links to the Home, About, and Contact pages.
+4. Replace the placeholder content in the original \`App.js\` file with the updated routing logic.
+5. Use plain CSS for styling the navigation bar and the content of each page.
+
+### Example Output
+
+FILE: src/App.js
+\`\`\`javascript
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import "./App.css";
+
+function Home() {
+  return <h1>Welcome to the Home Page</h1>;
+}
+
+function About() {
+  return <h1>About Our Application</h1>;
+}
+
+function Contact() {
+  return <h1>Contact Us</h1>;
+}
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <nav className="App-nav">
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/contact">Contact</Link>
+        </nav>
+        <div className="App-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+\`\`\`
+
+FILE: src/App.css
+\`\`\`css
+.App {
+  text-align: center;
+}
+
+.App-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background-color: #282c34;
+  padding: 10px;
+}
+
+.App-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.App-nav a:hover {
+  text-decoration: underline;
+}
+
+.App-content {
+  margin-top: 20px;
+}
+\`\`\`
+
+Instructions:
+- Implement the above structure in \`App.js\`.
+- Ensure navigation links work correctly to route between pages.
+- Add basic styles to the navigation bar and content sections using plain CSS.
+- No placeholder or unused content should remain in the output.
+`;
+
+export { componentPrompt, pagePrompt, apiPrompt, dependencyPrompt , routingPrompt};

@@ -1,4 +1,0 @@
-react6/
-  src/
-    components/
-      - TaskDetails.js

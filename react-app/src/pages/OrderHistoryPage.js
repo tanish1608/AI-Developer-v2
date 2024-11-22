@@ -1,6 +1,6 @@
 import React from "react";
 
-const AboutUsPage = () => {
+const OrderHistoryPage = () => {
 const containerStyle = {
 maxWidth: "1200px",
 margin: "50px auto",
@@ -47,17 +47,15 @@ cursor: "not-allowed",
 };
 
 const handleClick = () => {
-alert("More about us coming soon!");
+alert("Order history updated!");
 };
 
 return (
 <div style={containerStyle}>
-<h1 style={headingStyle}>About Us</h1>
+<h1 style={headingStyle}>Order History</h1>
 <p style={paragraphStyle}>
-Welcome to the About Us page! Here, we provide detailed information
-about our mission, values, and goals. Learn about our team and our
-commitment to providing the best user experience. Our app is designed
-to make your tasks easier, more efficient, and enjoyable.
+Welcome to the Order History page! Here, we provide a list of your
+past orders, including the date, products, and total cost of each order.
 </p>
 <button
 style={buttonStyle}
@@ -65,10 +63,31 @@ onClick={handleClick}
 onMouseEnter={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
 onMouseLeave={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
 >
-Learn More
+View Order History
 </button>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Products</th>
+<th>Total Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022-01-01</td>
+<td>Product 1 x 2, Product 2 x 1</td>
+<td>$20.99</td>
+</tr>
+<tr>
+<td>2022-01-15</td>
+<td>Product 3 x 1, Product 4 x 2</td>
+<td>$30.99</td>
+</tr>
+</tbody>
+</table>
 </div>
 );
 };
 
-export default AboutUsPage;
+export default OrderHistoryPage;

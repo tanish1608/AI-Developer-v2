@@ -1,4 +1,0 @@
-automate4/
-  src/
-    pages/
-      - TaskDetailsPage.js

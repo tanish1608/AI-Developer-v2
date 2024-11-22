@@ -1,4 +1,0 @@
-react5/
-  src/
-    pages/
-      - TaskDetailsPage.js

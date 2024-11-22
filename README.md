@@ -14,6 +14,7 @@ LLAMA 3.1, Open AI, Claude Sonnet etc
 - npm install 
 - npm link
     - then run "dev-ai" cli from anywhere of the terminal 
+
 ```
 
 ### Setup llama3.1 on ollama locally to use this project
@@ -23,6 +24,26 @@ LLAMA 3.1, Open AI, Claude Sonnet etc
 - To verify the installation `ollama list`
 - Run the model `ollama run llama3.1`
 - Keep it running, now go the git repo run the as the above intructions.
+
+
+
+### Setup to run the entire project
+- run the folder server  - `node server.cjs`
+- run the backend server - `node src/index.js`
+- run the electron JS front end app using the `npm run dev`
+- finally run the generated react app using `npm start`
+
+
+### Future Work
+- Send the server Response to the backend. and display in front end 
+- Dynamically update the folder structure in the app
+- restructure the chat section inside the app
+- improve the prompt and the model parameters. model etc hence better output
+- increase the compatability to more tech stacks 
+
+
+
+
 
 ## Demo video 
 link : https://drive.google.com/file/d/1vHCobBLiFTpfnp9BrNf3HYGlb74tRUn0/view?usp=sharing 

@@ -1,6 +1,6 @@
 import React from "react";
 
-const AboutUsPage = () => {
+const CartPage = () => {
 const containerStyle = {
 maxWidth: "1200px",
 margin: "50px auto",
@@ -47,17 +47,15 @@ cursor: "not-allowed",
 };
 
 const handleClick = () => {
-alert("More about us coming soon!");
+alert("Cart updated!");
 };
 
 return (
 <div style={containerStyle}>
-<h1 style={headingStyle}>About Us</h1>
+<h1 style={headingStyle}>Cart</h1>
 <p style={paragraphStyle}>
-Welcome to the About Us page! Here, we provide detailed information
-about our mission, values, and goals. Learn about our team and our
-commitment to providing the best user experience. Our app is designed
-to make your tasks easier, more efficient, and enjoyable.
+Welcome to the Cart page! Here, we provide a list of products you
+have added to your cart, along with the total cost and number of items.
 </p>
 <button
 style={buttonStyle}
@@ -65,10 +63,16 @@ onClick={handleClick}
 onMouseEnter={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
 onMouseLeave={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
 >
-Learn More
+Update Cart
 </button>
+<ul>
+<li>Product 1 x 2</li>
+<li>Product 2 x 1</li>
+</ul>
+<p>Total: $20.99</p>
+<p>Number of items: 3</p>
 </div>
 );
 };
 
-export default AboutUsPage;
+export default CartPage;

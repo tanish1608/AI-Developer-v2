@@ -1,3 +1,0 @@
-import DigitButton from './DigitButton';
-
-export default DigitButton;

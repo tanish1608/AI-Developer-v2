@@ -1,8 +1,0 @@
-This API route handles the following operations:
-
-GET /api/todos: Returns a list of all todos. If an ID is provided as a query parameter, returns the todo with that ID.
-POST /api/todos: Creates a new todo. Returns the new todo.
-PUT /api/todos/:id: Updates a specific todo. Returns the updated todo.
-DELETE /api/todos/:id: Deletes a specific todo.
-
-Note: This is a basic implementation and does not include any type of data validation, error handling, or security measures. In a real-world application, you would want to add these features.

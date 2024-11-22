@@ -1,4 +1,0 @@
-automate6/
-  src/
-    pages/
-      - SettingsPage.js

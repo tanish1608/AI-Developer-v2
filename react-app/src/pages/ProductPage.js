@@ -1,6 +1,6 @@
 import React from "react";
 
-const AboutUsPage = () => {
+const ProductPage = () => {
 const containerStyle = {
 maxWidth: "1200px",
 margin: "50px auto",
@@ -47,17 +47,15 @@ cursor: "not-allowed",
 };
 
 const handleClick = () => {
-alert("More about us coming soon!");
+alert("More products coming soon!");
 };
 
 return (
 <div style={containerStyle}>
-<h1 style={headingStyle}>About Us</h1>
+<h1 style={headingStyle}>Products</h1>
 <p style={paragraphStyle}>
-Welcome to the About Us page! Here, we provide detailed information
-about our mission, values, and goals. Learn about our team and our
-commitment to providing the best user experience. Our app is designed
-to make your tasks easier, more efficient, and enjoyable.
+Welcome to the Products page! Here, we provide a list of our products
+with filtering and sorting options.
 </p>
 <button
 style={buttonStyle}
@@ -67,8 +65,13 @@ onMouseLeave={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundCol
 >
 Learn More
 </button>
+<ul>
+<li>Product 1</li>
+<li>Product 2</li>
+<li>Product 3</li>
+</ul>
 </div>
 );
 };
 
-export default AboutUsPage;
+export default ProductPage;

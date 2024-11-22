@@ -17,7 +17,7 @@ You are a developer agent tasked with creating a highly interactive, reusable, a
 
 ### 3. **Example Component**:
 
-**FILE:** src/components/ButtonWithCounter.js
+FILE: src/components/ButtonWithCounter.js
 \`\`\`javascript
 import React, { useState, useEffect } from 'react';
 
@@ -217,7 +217,7 @@ export default About;
 ### 5. **Routing and Integration**:
    - In \`App.js\`, create a route that links to the new page:
 
-   **FILE:** src/App.js
+   FILE: src/App.js
    \`\`\`javascript
    import React from "react";
    import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
@@ -248,7 +248,7 @@ export default About;
 
    - **Update Header component** to include a link to the About page:
 
-   **FILE:** src/components/Header.js
+   FILE: src/components/Header.js
    \`\`\`javascript
    import React from 'react';
    import { Link } from 'react-router-dom';

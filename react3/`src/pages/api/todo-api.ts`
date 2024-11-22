@@ -1,0 +1,76 @@
+import { NextApiRequest, NextApiResponse } from "next";
+import { Todo } from "./types";
+
+// In-memory database for simplicity
+let todos: Todo[] = [];
+
+// Create a new Todo item
+export async function createTodo(req: NextApiRequest, res: NextApiResponse) {
+try {
+const { title } = req.body;
+if (!title) {
+return res.status(400).json({ error: "Title is required" });
+}
+const newTodo: Todo = { id: Date.now().toString(), title, completed: false };
+todos.push(newTodo);
+return res.status(201).json(newTodo);
+} catch (error) {
+console.error(error);
+return res.status(500).json({ error: "Internal Server Error" });
+}
+}
+
+// Get all Todo items
+export async function getTodos(req: NextApiRequest, res: NextApiResponse) {
+try {
+return res.status(200).json(todos);
+} catch (error) {
+console.error(error);
+return res.status(500).json({ error: "Internal Server Error" });
+}
+}
+
+// Get a specific Todo item by ID
+export async function getTodo(req: NextApiRequest, res: NextApiResponse) {
+try {
+const { id } = req.params;
+const todo = todos.find((todo) => todo.id === id);
+if (!todo) {
+return res.status(404).json({ error: "Todo Not Found" });
+}
+return res.status(200).json(todo);
+} catch (error) {
+console.error(error);
+return res.status(500).json({ error: "Internal Server Error" });
+}
+}
+
+// Update a specific Todo item by ID
+export async function updateTodo(req: NextApiRequest, res: NextApiResponse) {
+try {
+const { id } = req.params;
+const { title, completed } = req.body;
+const todo = todos.find((todo) => todo.id === id);
+if (!todo) {
+return res.status(404).json({ error: "Todo Not Found" });
+}
+todo.title = title;
+todo.completed = completed;
+return res.status(200).json(todo);
+} catch (error) {
+console.error(error);
+return res.status(500).json({ error: "Internal Server Error" });
+}
+}
+
+// Delete a specific Todo item by ID
+export async function deleteTodo(req: NextApiRequest, res: NextApiResponse) {
+try {
+const { id } = req.params;
+todos = todos.filter((todo) => todo.id !== id);
+return res.status(204).end();
+} catch (error) {
+console.error(error);
+return res.status(500).json({ error: "Internal Server Error" });
+}
+}

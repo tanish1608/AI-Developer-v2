@@ -1,0 +1,59 @@
+import React from "react";
+import { useParams } from "react-router-dom";
+import Layout from "../../components/Layout";
+
+const TaskDetail = () => {
+const { id } = useParams();
+
+const containerStyle = {
+maxWidth: "800px",
+margin: "20px auto",
+padding: "20px",
+backgroundColor: "#f0f0f0",
+borderRadius: "8px",
+textAlign: "center",
+fontFamily: "Arial, sans-serif",
+};
+
+const headingStyle = {
+fontSize: "32px",
+color: "#333",
+};
+
+const paragraphStyle = {
+fontSize: "18px",
+color: "#666",
+lineHeight: "1.6",
+};
+
+return (
+<Layout>
+<div style={containerStyle}>
+<h1 style={headingStyle}>Task {id} Details</h1>
+<p style={paragraphStyle}>
+This is the task detail page for task {id}. Here, you can view the task
+details, including the task name, deadline, and completion status.
+</p>
+</div>
+</Layout>
+);
+};
+
+export default TaskDetail;
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Index from "./pages/index";
+import TaskDetail from "./pages/task/[id]";
+
+function App() {
+return (
+<BrowserRouter>
+<Routes>
+<Route path="/" element={<Index />} />
+<Route path="/task/:id" element={<TaskDetail />} />
+</Routes>
+</BrowserRouter>
+);
+}
+
+export default App;

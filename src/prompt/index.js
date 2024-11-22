@@ -1,172 +1,243 @@
 const componentPrompt = `
-You are a developer agent tasked with creating a React component using JavaScript for a React.js app. The component should include the following:
+You are a developer agent tasked with creating a highly interactive, reusable, and visually appealing React component for a React.js app. The component should include the following:
 
-1. Component file (\`.js\`):
-  - The main component logic should be defined here using plain JavaScript and regular CSS.
-  - If any state or effects are required, ensure they are handled using \`useState\` and \`useEffect\`.
-  - Import a separate \`.module.css\` file for styling.
-  - Do not include any code comments in the output.
+### 1. **Component File (.js)**:
+   - Use **React Functional Component** with **props** and **state** management.
+   - Use **inline CSS** for styling, ensuring styles are scoped to the component.
+   - Use **React Hooks** like \`useState\`, \`useEffect\`, and \`useRef\` for managing state, side effects, and component references.
+   - Ensure the component is **reusable** with **customizable props**.
 
-2. CSS Module (\`.module.css\`):
-  - Define additional CSS styling in a \`.module.css\` file and import it inside the component file.
-  - Use regular CSS class names with descriptive names.
+### 2. **Component Features**:
+   - The component should be interactive and have state management.
+   - Implement **dynamic styling** based on component state (e.g., change button color on click, hover effects).
+   - **Error Handling**: Ensure proper handling of any user inputs or interactions.
+   - Ensure **accessibility** by adding ARIA roles or attributes where needed.
+   - Provide **feedback** or animations during user interactions (e.g., loading states or button clicks).
+   - Include **default props**.
 
-3. Component Output Example:
-    - I want the entire logic end-to-end.
-    - You should implement state logic and other interaction logic fully.
-    - Do not leave logic implementation as empty.
-    - High-importance rule: Use the format "FILE: [file name]" for all file names.
-    - High-importance rule: Use \`\`\` to enclose code blocks for easy extraction.
-    - The component should include an \`index.js\` file for modular imports.
+### 3. **Example Component**:
 
-    ### Component Output Format Example:
+**FILE:** src/components/ButtonWithCounter.js
+\`\`\`javascript
+import React, { useState, useEffect } from 'react';
 
-    FILE: src/components/weatherForecast/WeatherForecast.js
-    \`\`\`javascript
-    import { useState, useEffect } from "react";
-    import styles from "./WeatherForecast.module.css";
+function ButtonWithCounter({ initialCount = 0, buttonText = "Click Me" }) {
+  const [count, setCount] = useState(initialCount);
+  const [loading, setLoading] = useState(false);
 
-    function WeatherForecast({ location }) {
-      const [forecastData, setForecastData] = useState(null);
-      const [error, setError] = useState(null);
+  useEffect(() => {
+    console.log('Component mounted or updated!');
+  }, [count]);
 
-      useEffect(() => {
-        // Fetch weather data using location prop
-        fetch(\`/api/weather?location=\${location}\`)
-          .then((response) => response.json())
-          .then((data) => setForecastData(data))
-          .catch((error) => setError(error));
-      }, [location]);
+  const handleButtonClick = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setCount(count + 1);
+      setLoading(false);
+    }, 500);
+  };
 
-      return (
-        <div className={styles.container}>
-          <h2>5-Day Forecast</h2>
-          {error && <p className={styles.error}>Error fetching data</p>}
-          <ul>
-            {forecastData ? (
-              forecastData.map((item) => (
-                <li key={item.date}>
-                  {item.date}: {item.temperature}°C
-                </li>
-              ))
-            ) : (
-              <p>Loading...</p>
-            )}
-          </ul>
-        </div>
-      );
-    }
+  // Inline CSS styles
+  const containerStyle = {
+    textAlign: "center",
+    marginTop: "50px",
+    fontFamily: "Arial, sans-serif",
+  };
 
-    export default WeatherForecast;
-    \`\`\`
+  const countTextStyle = {
+    fontSize: "18px",
+    margin: "20px 0",
+  };
 
-    FILE: src/components/weatherForecast/index.js
-    \`\`\`javascript
-    import WeatherForecast from "./WeatherForecast";
-    export default WeatherForecast;
-    \`\`\`
+  const buttonStyle = {
+    padding: "10px 20px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor: "#007bff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+  };
 
-    FILE: src/components/weatherForecast/WeatherForecast.module.css
-    \`\`\`css
-    .container {
-      max-width: 300px;
-      margin: 40px auto;
-      color: #000;
-      font-family: Arial, sans-serif;
-    }
+  const buttonHoverStyle = {
+    backgroundColor: "#0056b3",
+  };
 
-    .error {
-      color: red;
-    }
-    \`\`\`
+  const buttonDisabledStyle = {
+    backgroundColor: "#cccccc",
+    cursor: "not-allowed",
+  };
 
-Make sure all files are created with valid code and proper folder structure, as shown in the example.
+  const loadingStyle = {
+    backgroundColor: "#ffcc00",
+  };
+
+  return (
+    <div style={containerStyle}>
+      <p style={countTextStyle}>Button clicked {count} times</p>
+      <button
+        style={{
+          ...buttonStyle,
+          ...(loading ? loadingStyle : {}),
+          ":hover": buttonHoverStyle
+        }}
+        onClick={handleButtonClick}
+        disabled={loading}
+        aria-live="polite"
+      >
+        {loading ? 'Processing...' : buttonText}
+      </button>
+    </div>
+  );
+}
+
+export default ButtonWithCounter;
+\`\`\`
+
+### 4. **Component Behavior Enhancements**:
+   - **State Management**: The component has a state for counting button clicks and another for managing the loading state (to simulate an async action).
+   - **Effect Hook**: The \`useEffect\` hook logs updates when the count changes.
+   - **Inline CSS**: All styles are defined directly inside the component using JavaScript objects.
+   - **Loading State**: The component shows a loading text when the button is clicked, simulating an API call or process.
+   - **Custom Props**: The component allows customization of the initial count and button text via props, with default values provided.
+   - **Accessibility**: The \`aria-live="polite"\` attribute ensures that screen readers announce changes to the button text when it's updated.
+
+### 5. **Best Practices**:
+   - **Error Handling**: The button is disabled while the action is processing to avoid multiple clicks.
+   - **Accessibility**: The component includes accessibility considerations with ARIA attributes.
+   - **Dynamic Inline Styling**: The styles for the button change dynamically based on the loading state.
+
+This updated version of the component now uses **inline CSS** for all styles, which can be helpful for smaller components or cases where styling doesn't need to be reused elsewhere. The functionality remains the same, but the styles are applied directly within the JavaScript file, improving the ease of use and simplicity for small applications.
 `;
 
 const pagePrompt = `
-You are a developer agent tasked with creating a React.js page that connects to a routing setup in \`App.js\`. Follow these requirements:
+You are a developer agent tasked with creating a highly interactive and styled React.js page using inline CSS. Follow these requirements:
 
-1. **Page Creation**:
-   - Create a separate React component for the page.
-   - Ensure the page contains meaningful content (e.g., heading, description, and other elements as required).
-   - No state logic or hooks (e.g., \`useState\`, \`useEffect\`) should be included in the page itself.
+### 1. **Page Creation**:
+   - Create a React component for the page, using **functional components**.
+   - Include meaningful content, such as a heading, description, buttons, or any other elements that make the page informative and interactive.
+   - Use **inline CSS** for all styles within the page component.
+   - Do not include state management or hooks (focus on static content only).
+   - The page should include **attractive and responsive styles** that make it look polished and professional.
 
-2. **Routing Integration**:
-   - Ensure the created page component is linked in \`App.js\`.
+### 2. **Routing Integration**:
+   - Ensure the page is linked in the \`App.js\` file.
    - Add a route in \`App.js\` using \`react-router-dom\` to navigate to the created page.
-   - Update the navigation bar in \`App.js\` to include a link to the new page.
+   - Update the **Header component** to include a link to the new page.
 
-3. **File Structure**:
-   - Place the page component file inside a folder named after the page in the \`src/pages\` directory.
-   - Include a \`.css\` file for styling the page, and ensure the styles are imported into the page component.
+### 3. **Improved Example Page**:
 
-4. **Example Output Format**:
-   
-   FILE: src/pages/About/About.js
+**FILE:** src/pages/About.js
+\`\`\`javascript
+import React from "react";
+
+const About = () => {
+  const containerStyle = {
+    maxWidth: "900px",
+    margin: "50px auto",
+    padding: "30px",
+    backgroundColor: "#fafafa",
+    borderRadius: "12px",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    textAlign: "center",
+    fontFamily: "Arial, sans-serif",
+  };
+
+  const headingStyle = {
+    fontSize: "36px",
+    color: "#333",
+    marginBottom: "20px",
+  };
+
+  const paragraphStyle = {
+    fontSize: "18px",
+    color: "#555",
+    lineHeight: "1.8",
+    marginBottom: "20px",
+  };
+
+  const buttonStyle = {
+    padding: "12px 20px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+  };
+
+  const buttonHoverStyle = {
+    backgroundColor: "#0056b3",
+  };
+
+  const buttonDisabledStyle = {
+    backgroundColor: "#cccccc",
+    cursor: "not-allowed",
+  };
+
+  const handleClick = () => {
+    alert("More about us coming soon!");
+  };
+
+  return (
+    <div style={containerStyle}>
+      <h1 style={headingStyle}>About Us</h1>
+      <p style={paragraphStyle}>
+        Welcome to the About Us page! Here, we provide detailed information
+        about our mission, values, and goals. Learn about our team and our
+        commitment to providing the best user experience. Our app is designed
+        to make your tasks easier, more efficient, and enjoyable.
+      </p>
+      <button
+        style={buttonStyle}
+        onClick={handleClick}
+        onMouseEnter={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
+        onMouseLeave={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
+      >
+        Learn More
+      </button>
+    </div>
+  );
+};
+
+export default About;
+\`\`\`
+
+### 4. **Key Features**:
+   - **Responsive Styling**: The page container has maximum width, margin, and padding for better alignment on different screen sizes.
+   - **Heading and Paragraphs**: The content is structured with a heading and a detailed description to introduce the company, product, or service.
+   - **Call-to-Action Button**: Added a "Learn More" button with hover effect and event handling to make the page interactive.
+   - **Inline CSS**: All styles are defined within the component using JavaScript objects. The button styles are dynamic, with hover effects included.
+   - **Responsive Layout**: The layout is optimized for different screen sizes, ensuring the page is visually appealing across devices.
+
+### 5. **Routing and Integration**:
+   - In \`App.js\`, create a route that links to the new page:
+
+   **FILE:** src/App.js
    \`\`\`javascript
    import React from "react";
-   import "./About.css";
-
-   export default function About() {
-     return (
-       <div className="about-container">
-         <h1>About Us</h1>
-         <p>
-           Welcome to the About page! Here, we provide information about our
-           application and its purpose.
-         </p>
-       </div>
-     );
-   }
-   \`\`\`
-
-   FILE: src/pages/About/About.css
-   \`\`\`css
-   .about-container {
-     max-width: 800px;
-     margin: 20px auto;
-     padding: 20px;
-     background-color: #f0f0f0;
-     border-radius: 8px;
-     text-align: center;
-   }
-
-   h1 {
-     font-size: 32px;
-     color: #333;
-   }
-
-   p {
-     font-size: 18px;
-     color: #666;
-   }
-   \`\`\`
-
-   FILE: src/App.js (Updated to Include the Page)
-   \`\`\`javascript
-   import React from "react";
-   import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-   import Home from "./pages/Home/Home";
-   import About from "./pages/About/About";
-   import Contact from "./pages/Contact/Contact";
-   import "./App.css";
+   import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+   import About from './pages/About';
+   import Home from './pages/Home';
+   import Login from './pages/Login';
+   import Register from './pages/Register';
+   import Header from './components/Header';
 
    function App() {
      return (
        <Router>
-         <div className="App">
-           <nav className="App-nav">
-             <Link to="/">Home</Link>
-             <Link to="/about">About</Link>
-             <Link to="/contact">Contact</Link>
-           </nav>
-           <div className="App-content">
-             <Routes>
-               <Route path="/" element={<Home />} />
-               <Route path="/about" element={<About />} />
-               <Route path="/contact" element={<Contact />} />
-             </Routes>
-           </div>
+         <Header />
+         <div>
+           <Routes>
+             <Route path="/" element={<Home />} />
+             <Route path="/about" element={<About />} />
+             <Route path="/login" element={<Login />} />
+             <Route path="/register" element={<Register />} />
+           </Routes>
          </div>
        </Router>
      );
@@ -175,162 +246,139 @@ You are a developer agent tasked with creating a React.js page that connects to 
    export default App;
    \`\`\`
 
-   FILE: src/App.css (Updated if Needed)
-   \`\`\`css
-   .App {
-     text-align: center;
+   - **Update Header component** to include a link to the About page:
+
+   **FILE:** src/components/Header.js
+   \`\`\`javascript
+   import React from 'react';
+   import { Link } from 'react-router-dom';
+
+   function Header() {
+     const headerStyle = {
+       backgroundColor: '#282c34',
+       padding: '10px',
+       textAlign: 'center',
+     };
+
+     const linkStyle = {
+       color: 'white',
+       margin: '0 10px',
+       textDecoration: 'none',
+     };
+
+     return (
+       <nav style={headerStyle}>
+         <Link to="/" style={linkStyle}>
+           Home
+         </Link>
+         <Link to="/about" style={linkStyle}>
+           About Us
+         </Link>
+         <Link to="/login" style={linkStyle}>
+           Login
+         </Link>
+         <Link to="/register" style={linkStyle}>
+           Register
+         </Link>
+       </nav>
+     );
    }
 
-   .App-nav {
-     display: flex;
-     justify-content: center;
-     gap: 20px;
-     background-color: #282c34;
-     padding: 10px;
-   }
-
-   .App-nav a {
-     color: white;
-     text-decoration: none;
-     font-weight: bold;
-   }
-
-   .App-nav a:hover {
-     text-decoration: underline;
-   }
-
-   .App-content {
-     margin-top: 20px;
-   }
+   export default Header;
    \`\`\`
 
-5. **Validation**:
-   - Verify that the page component renders correctly when accessed via its route.
-   - Ensure the link in the navigation bar works properly to navigate to the page.
-   - Maintain clean and readable code, without placeholder or unused content.
-`;
-const apiPrompt = `
-You are a developer agent tasked with creating a Next.js API route using TypeScript. The API route should meet the following requirements:
+### 6. **Additional Features**:
+   - **Hover Effects**: The button changes its color on hover, providing users with visual feedback.
+   - **Alert on Button Click**: Clicking the button triggers a simple alert, providing a placeholder for future interaction.
 
-### 1. **API Route Structure**:
-   - The API route must be placed in the \`src/pages/api/\` directory.
+This page structure is simple, interactive, and integrates well with the routing system in a React app. The page content can be extended and customized easily.`
+
+
+const apiPrompt = `
+You are a developer agent tasked with creating a node API route using javaScript. The API route should meet the following requirements:
+
+1. **API Route Structure**:
+   - Place the API route in the src/pages/api  directory.
    - Handle multiple HTTP methods (e.g., GET, POST, DELETE) using \`req.method\` to distinguish between them.
-   - The API should respond with the appropriate status codes, such as:
+   - Respond with appropriate status codes:
      - 200 for successful GET requests
      - 201 for successful POST requests
      - 204 for successful DELETE requests
      - 400 for bad requests (e.g., missing required fields)
      - 500 for server errors
 
-### 2. **Request Validation**:
-   - Validate the request body for POST, PUT, or PATCH methods. If validation fails, respond with a 400 status and an error message.
-   - Ensure proper error handling using try-catch blocks for asynchronous operations and respond with appropriate error messages (500 status for server errors).
-   
-### 3. **TypeScript Integration**:
-   - Use TypeScript to type both the request and response objects.
-   - Define and import any request/response types or data structures in a \`types.ts\` file located in the same directory as the API route.
-   - Use TypeScript interfaces to define these types.
+2. **Request Validation**:
+   - Validate the request body for POST, PUT, or PATCH methods.
+   - Respond with a 400 status and an error message if validation fails.
+   - Use try-catch blocks for error handling.
 
-### 4. **Asynchronous Operations**:
-   - If the API interacts with external services (e.g., databases or third-party APIs), use asynchronous functions and async/await syntax.
-   - Ensure proper error handling for these operations to prevent unhandled exceptions.
+3. **TypeScript Integration**:
+   - Use TypeScript to type request and response objects.
+   - Define and import types or data structures in a \`types.ts\` file.
 
-### 5. **Example API Route Logic**:
+4. **Example API Route**:
 
-#### FILE: src/pages/api/todos.ts
+**FILE:** \`src/pages/api/todos.ts\`
 \`\`\`typescript
-import { NextApiRequest, NextApiResponse } from 'next';
-import { Todo } from './types/TodoTypes';
+import { NextApiRequest, NextApiResponse } from "next";
+import { Todo } from "./types";
 
 let todos: Todo[] = [];
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     switch (req.method) {
-      case 'GET':
+      case "GET":
         return res.status(200).json(todos);
 
-      case 'POST':
-        const { title, completed } = req.body;
-
+      case "POST":
+        const { title } = req.body;
         if (!title) {
-          return res.status(400).json({ error: 'Title is required' });
+          return res.status(400).json({ error: "Title is required" });
         }
-
-        const newTodo: Todo = {
-          id: Date.now().toString(),
-          title,
-          completed: completed || false,
-        };
-
+        const newTodo: Todo = { id: Date.now().toString(), title, completed: false };
         todos.push(newTodo);
         return res.status(201).json(newTodo);
 
-      case 'DELETE':
+      case "DELETE":
         const { id } = req.body;
-        todos = todos.filter(todo => todo.id !== id);
+        todos = todos.filter((todo) => todo.id !== id);
         return res.status(204).end();
 
       default:
-        res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
-        return res.status(405).json({ error: \`Method $req.method} Not Allowed\` });
+        res.setHeader("Allow", ["GET", "POST", "DELETE"]);
+        return res.status(405).json({ error: \`Method {req.method} Not Allowed\` });
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 \`\`\`
 
-#### FILE: src/pages/api/types/TodoTypes.ts
-\`\`\`typescript
-export interface Todo {
-  id: string;
-  title: string;
-  completed: boolean;
-}
-\`\`\`
-
-### 6. **Error Handling and Status Codes**:
-   - Ensure the API handles validation errors and server errors appropriately.
-   - Use a 400 status code for bad requests (e.g., missing fields) and a 500 status code for server errors.
-   - Return meaningful error messages in the response body for clarity.
-
-### 7. **Testing the API**:
-   - Test the route by making requests using different HTTP methods (GET, POST, DELETE) to ensure the API behaves as expected:
-     - A GET request should return the list of todos.
-     - A POST request should add a new todo to the list.
-     - A DELETE request should remove a todo by ID.
-
----
-
-Ensure the API route is well-structured, error-handled, and uses TypeScript effectively for type safety. The example above demonstrates how to handle different HTTP methods, request validation, and response formatting.
 `;
 const dependencyPrompt = `
-You are a developer agent tasked with generating the list of required modules for a Next.js project. The modules should be identified based on the components, pages, or APIs that are being generated. 
+YYou are a developer agent tasked with generating the list of required modules for a Next.js project. Follow these requirements:
 
-1. Dependency List:
-   - Identify any new npm modules required to run the generated code.
-   - List all required modules (e.g., \`axios\`, \`tailwindcss\`, \`express\`, etc.).
-   - Output the list in JSON format so the dependencies can be easily installed via \`npm install\`.
+1. **Dependency List**:
+   - Identify npm modules required to run the project.
+   - List all modules in JSON format for easy installation with \`npm install\`.
 
-2. Module Versioning:
-   - Provide the latest stable version for each module if possible.
-   - If a specific version is required for compatibility, mention that version.
+2. **Module Versioning**:
+   - Provide the latest stable version for each module.
 
-### Output Format:
+3. **Output Format**:
 
-Provide the list of required modules in the following format:
 \`\`\`json
 {
   "modules": [
+    { "name": "react-router-dom", "version": "latest" },
     { "name": "axios", "version": "latest" },
-    { "name": "tailwindcss", "version": "latest" }
+    { "name": "typescript", "version": "latest" }
   ]
 }
 \`\`\`
 
-The output should only include the required modules and their versions. Do not include any extra explanations or comments. Use the latest stable versions unless a specific version is necessary for compatibility.
 `;
 
 const routingPrompt = `
@@ -349,36 +397,25 @@ You are a developer agent tasked with modifying the \`App.js\` file of a React.j
 
 FILE: src/App.js
 \`\`\`javascript
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import "./App.css";
-
-function Home() {
-  return <h1>Welcome to the Home Page</h1>;
-}
-
-function About() {
-  return <h1>About Our Application</h1>;
-}
-
-function Contact() {
-  return <h1>Contact Us</h1>;
-}
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import AboutUsPage from './pages/AboutUsPage';
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <nav className="App-nav">
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
-        </nav>
-        <div className="App-content">
+      <div style={{ textAlign: 'center' }}>
+        <Header />
+        <div style={{ margin: '20px' }}>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/about" element={<AboutUsPage />} />
           </Routes>
         </div>
       </div>
@@ -389,34 +426,7 @@ function App() {
 export default App;
 \`\`\`
 
-FILE: src/App.css
-\`\`\`css
-.App {
-  text-align: center;
-}
-
-.App-nav {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  background-color: #282c34;
-  padding: 10px;
-}
-
-.App-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.App-nav a:hover {
-  text-decoration: underline;
-}
-
-.App-content {
-  margin-top: 20px;
-}
-\`\`\`
+ 
 
 Instructions:
 - Implement the above structure in \`App.js\`.

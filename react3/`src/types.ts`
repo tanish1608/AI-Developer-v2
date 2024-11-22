@@ -1,0 +1,11 @@
+interface Todo {
+id: string;
+title: string;
+completed: boolean;
+}
+module.exports = {
+// ...
+api: {
+redirectTo: "/api",
+},
+};

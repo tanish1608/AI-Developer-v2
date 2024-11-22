@@ -1,0 +1,60 @@
+import React from "react";
+
+function TaskItem({ task, onTaskToggle, onTaskDelete }) {
+const taskStyle = {
+padding: "10px",
+border: "1px solid #ccc",
+borderRadius: "5px",
+marginBottom: "10px",
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center",
+};
+
+const taskNameStyle = {
+fontSize: "16px",
+fontWeight: "bold",
+};
+
+const taskStatusStyle = {
+fontSize: "14px",
+color: "#666",
+};
+
+const buttonStyle = {
+padding: "5px 10px",
+fontSize: "14px",
+fontWeight: "bold",
+color: "#fff",
+backgroundColor: "#007bff",
+border: "none",
+borderRadius: "5px",
+cursor: "pointer",
+transition: "all 0.3s ease",
+};
+
+return (
+<div style={taskStyle}>
+<div>
+<span style={taskNameStyle}>{task.taskName}</span>
+<span style={taskStatusStyle}> - {task.deadline}</span>
+</div>
+<div>
+<button
+style={buttonStyle}
+onClick={onTaskToggle}
+>
+{task.completionStatus ? "Mark as Active" : "Mark as Completed"}
+</button>
+<button
+style={{ ...buttonStyle, backgroundColor: "#dc3545" }}
+onClick={onTaskDelete}
+>
+Delete
+</button>
+</div>
+</div>
+);
+}
+
+export default TaskItem;

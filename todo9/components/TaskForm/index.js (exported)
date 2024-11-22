@@ -1,0 +1,14 @@
+import React from 'react';
+import TaskForm from './TaskForm';
+
+const CreateTask = () => {
+const handleSubmit = (data) => console.log(data);
+return (
+<div>
+<h1>Create Task</h1>
+<TaskForm onSubmit={handleSubmit} />
+</div>
+);
+};
+
+export default CreateTask;

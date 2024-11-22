@@ -1,0 +1,85 @@
+import React, { useState } from "react";
+
+function TodoInput() {
+const [title, setTitle] = useState("");
+const [deadline, setDeadline] = useState("");
+const [completed, setCompleted] = useState(false);
+
+const formStyle = {
+padding: "20px",
+border: "1px solid #ccc",
+borderRadius: "5px",
+boxShadow: "0 0 10px rgba(0,0,0,0.1)",
+};
+
+const inputStyle = {
+padding: "10px",
+fontSize: "16px",
+borderWidth: "0 0 1px",
+};
+
+const buttonStyle = {
+padding: "10px 20px",
+fontSize: "16px",
+fontWeight: "bold",
+color: "#fff",
+backgroundColor: "#007bff",
+border: "none",
+borderRadius: "5px",
+cursor: "pointer",
+transition: "all 0.3s ease",
+};
+
+const hoverStyle = {
+backgroundColor: "#0056b3",
+};
+
+const handleInputChange = (event) => {
+const { name, value } = event.target;
+if (name === "title") {
+setTitle(value);
+} else if (name === "deadline") {
+setDeadline(value);
+}
+};
+
+const handleFormSubmit = (event) => {
+event.preventDefault();
+// Add new todo logic here
+};
+
+return (
+<form style={formStyle} onSubmit={handleFormSubmit}>
+<label style={{ fontSize: "16px", margin: "10px 0" }}>
+Title:
+<input
+type="text"
+name="title"
+value={title}
+onChange={handleInputChange}
+style={inputStyle}
+/>
+</label>
+<label style={{ fontSize: "16px", margin: "10px 0" }}>
+Deadline:
+<input
+type="date"
+name="deadline"
+value={deadline}
+onChange={handleInputChange}
+style={inputStyle}
+/>
+</label>
+<button
+style={buttonStyle}
+onMouseEnter={(e) => (e.target.style.backgroundColor = hoverStyle.backgroundColor)}
+onMouseLeave={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
+type="submit"
+>
+Add Todo
+</button>
+</form>
+);
+}
+
+export default TodoInput;

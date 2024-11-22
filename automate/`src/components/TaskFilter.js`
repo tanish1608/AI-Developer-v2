@@ -1,0 +1,38 @@
+import React, { useState } from "react";
+
+function TaskFilter({ onFilterChange }) {
+const [filter, setFilter] = useState("all");
+
+const filterStyle = {
+padding: "10px",
+border: "1px solid #ccc",
+borderRadius: "5px",
+marginBottom: "20px",
+};
+
+const selectStyle = {
+padding: "10px",
+fontSize: "16px",
+fontWeight: "bold",
+border: "none",
+borderRadius: "5px",
+cursor: "pointer",
+};
+
+const handleFilterChange = (e) => {
+setFilter(e.target.value);
+onFilterChange(e.target.value);
+};
+
+return (
+<div style={filterStyle}>
+<select value={filter} onChange={handleFilterChange} style={selectStyle}>
+<option value="all">All</option>
+<option value="completed">Completed</option>
+<option value="active">Active</option>
+</select>
+</div>
+);
+}
+
+export default TaskFilter;

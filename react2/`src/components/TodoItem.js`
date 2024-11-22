@@ -1,0 +1,50 @@
+import React from "react";
+
+function TodoItem({ todo }) {
+const itemStyle = {
+padding: "10px",
+borderBottom: "1px solid #ccc",
+cursor: "pointer",
+};
+
+const titleStyle = {
+fontSize: "16px",
+fontWeight: "bold",
+};
+
+const deadlineStyle = {
+fontSize: "14px",
+color: "#666",
+};
+
+const completedStyle = {
+textDecoration: todo.completed ? "line-through" : "none",
+};
+
+const handleToggleCompleted = () => {
+// Todo item completed toggle logic here
+};
+
+return (
+<div style={itemStyle}>
+<p style={{ ...titleStyle, margin: "10px 0" }}>
+{todo.title}
+</p>
+<p style={deadlineStyle}>{todo.deadline}</p>
+<p style={completedStyle}>
+<span
+onClick={handleToggleCompleted}
+style={{
+fontSize: "14px",
+color: "#007bff",
+cursor: "pointer",
+}}
+>
+{todo.completed ? "Mark as incomplete" : "Mark as complete"}
+</span>
+</p>
+</div>
+);
+}
+
+export default TodoItem;

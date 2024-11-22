@@ -1,0 +1,102 @@
+import React, { useState } from "react";
+
+function TaskForm({ onTaskSubmit }) {
+const [taskName, setTaskName] = useState("");
+const [deadline, setDeadline] = useState("");
+const [completionStatus, setCompletionStatus] = useState(false);
+
+const formStyle = {
+padding: "20px",
+border: "1px solid #ddd",
+borderRadius: "5px",
+boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+};
+
+const labelStyle = {
+display: "block",
+marginBottom: "10px",
+fontSize: "16px",
+fontWeight: "bold",
+};
+
+const inputStyle = {
+padding: "10px",
+fontSize: "16px",
+border: "1px solid #ccc",
+borderRadius: "5px",
+width: "100%",
+marginBottom: "20px",
+};
+
+const checkboxStyle = {
+margin: "10px",
+};
+
+const submitButtonStyle = {
+padding: "10px 20px",
+fontSize: "16px",
+fontWeight: "bold",
+color: "#fff",
+backgroundColor: "#007bff",
+border: "none",
+borderRadius: "5px",
+cursor: "pointer",
+transition: "all 0.3s ease",
+};
+
+const handleTaskNameChange = (e) => {
+setTaskName(e.target.value);
+};
+
+const handleDeadlineChange = (e) => {
+setDeadline(e.target.value);
+};
+
+const handleCompletionStatusChange = (e) => {
+setCompletionStatus(e.target.checked);
+};
+
+const handleSubmit = (e) => {
+e.preventDefault();
+onTaskSubmit({ taskName, deadline, completionStatus });
+setTaskName("");
+setDeadline("");
+setCompletionStatus(false);
+};
+
+return (
+<form style={formStyle} onSubmit={handleSubmit}>
+<label style={labelStyle}>Task Name:</label>
+<input
+type="text"
+value={taskName}
+onChange={handleTaskNameChange}
+style={inputStyle}
+/>
+
+<label style={labelStyle}>Deadline:</label>
+<input
+type="date"
+value={deadline}
+onChange={handleDeadlineChange}
+style={inputStyle}
+/>
+
+<label style={labelStyle}>
+<input
+type="checkbox"
+checked={completionStatus}
+onChange={handleCompletionStatusChange}
+style={checkboxStyle}
+/>
+Completed
+</label>
+
+<button type="submit" style={submitButtonStyle}>
+Add Task
+</button>
+</form>
+);
+}
+
+export default TaskForm;

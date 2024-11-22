@@ -1,0 +1,4 @@
+react8/
+  src/
+    pages/
+      - TaskDetails.js

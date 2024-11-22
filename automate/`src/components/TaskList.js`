@@ -1,0 +1,88 @@
+import React, { useState } from "react";
+
+function TaskList({ tasks, onTaskToggle, onTaskDelete }) {
+const [filter, setFilter] = useState("all");
+
+const listStyle = {
+padding: "20px",
+border: "1px solid #ddd",
+borderRadius: "5px",
+boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+};
+
+const taskStyle = {
+padding: "10px",
+border: "1px solid #ccc",
+borderRadius: "5px",
+marginBottom: "10px",
+display: "flex",
+justifyContent: "space-between",
+alignItems: "center",
+};
+
+const taskNameStyle = {
+fontSize: "16px",
+fontWeight: "bold",
+};
+
+const taskStatusStyle = {
+fontSize: "14px",
+color: "#666",
+};
+
+const buttonStyle = {
+padding: "5px 10px",
+fontSize: "14px",
+fontWeight: "bold",
+color: "#fff",
+backgroundColor: "#007bff",
+border: "none",
+borderRadius: "5px",
+cursor: "pointer",
+transition: "all 0.3s ease",
+};
+
+const handleFilterChange = (e) => {
+setFilter(e.target.value);
+};
+
+const filteredTasks = tasks.filter((task) => {
+if (filter === "all") return true;
+if (filter === "completed") return task.completionStatus;
+if (filter === "active") return !task.completionStatus;
+});
+
+return (
+<div style={listStyle}>
+<select value={filter} onChange={handleFilterChange} style={{ padding: "10px", fontSize: "16px", marginBottom: "20px" }}>
+<option value="all">All</option>
+<option value="completed">Completed</option>
+<option value="active">Active</option>
+</select>
+{filteredTasks.map((task, index) => (
+<div key={index} style={taskStyle}>
+<div>
+<span style={taskNameStyle}>{task.taskName}</span>
+<span style={taskStatusStyle}> - {task.deadline}</span>
+</div>
+<div>
+<button
+style={buttonStyle}
+onClick={() => onTaskToggle(index)}
+>
+{task.completionStatus ? "Mark as Active" : "Mark as Completed"}
+</button>
+<button
+style={{ ...buttonStyle, backgroundColor: "#dc3545" }}
+onClick={() => onTaskDelete(index)}
+>
+Delete
+</button>
+</div>
+</div>
+))}
+</div>
+);
+}
+
+export default TaskList;

@@ -60,84 +60,94 @@ function main(args) {
 
           messages.push({
             role: 'user',
-            content: `Please provide a detailed plan for creating a React.js application based on the following requirements: ${user_input}.
-                      - Ensure the response is in JSON format and includes the following:
-                        1. **Components**: Define the reusable building blocks for the app. Each component should have a name and description of its purpose or logic.
-                        2. **Pages**: Outline the main pages of the application, including the routing setup in \`App.js\`. Each page should describe how it integrates components, fulfills its functionality, and how it will be linked to other pages using React Router.
-                        3. **Folder Structure**: Provide a structured folder layout for the project, detailing where components, assets, styles, and utilities should be placed.
-                        4. **APIs**: If applicable, mention the APIs the app will consume and their purpose.
-                      - Important Guidelines:
-                        1. **Do Not** provide any code at this stage; only outline the plan.
-                        2. Components should be modular and designed to support separation of concerns.
-                        3. Pages should integrate components, implement routing via React Router in \`App.js\`, and fulfill their intended functionality.
-                        4. Adhere to React.js best practices for file naming, folder structuring, and modularity.
-                      - Example Response:
-                      
-                      ##### PLAN example output:
-                      \`\`\`json
-                      {
-                        "components": [
-                          {
-                            "name": "Header",
-                            "description": "A reusable header component with navigation and branding. It will contain links for routing to different pages in \`App.js\`."
-                          },
-                          {
-                            "name": "Card",
-                            "description": "A generic card component to display information blocks in a grid layout on the Home page."
-                          }
-                        ],
-                        "pages": [
-                          {
-                            "name": "HomePage",
-                            "description": "The landing page that includes the Header component and a grid of Card components. It will be the default route in the app ('/')."
-                          },
-                          {
-                            "name": "AboutPage",
-                            "description": "A page providing details about the application. It will be linked from the Header as '/about'."
-                          },
-                          {
-                            "name": "ContactPage",
-                            "description": "A page where users can contact the app creators. It will be linked from the Header as '/contact'."
-                          }
-                        ],
-                        "folderStructure": {
-                          "src": {
-                            "components": ["Header", "Card"],
-                            "pages": ["HomePage", "AboutPage", "ContactPage"],
-                            "styles": ["global.css", "HomePage.css", "AboutPage.css"],
-                            "utils": []
-                          }
-                        },
-                        "apis": [
-                          {
-                            "name": "getCards",
-                            "description": "Fetches data for populating the Card components in the HomePage grid."
-                          }
-                        ],
-                        "appRouting": {
-                          "description": "In \`App.js\`, set up React Router to manage the routes between different pages.",
-                          "routes": [
-                            {
-                              "path": "/",
-                              "component": "HomePage",
-                              "description": "Default route for the HomePage."
-                            },
-                            {
-                              "path": "/about",
-                              "component": "AboutPage",
-                              "description": "Route for the AboutPage, linked via the Header."
-                            },
-                            {
-                              "path": "/contact",
-                              "component": "ContactPage",
-                              "description": "Route for the ContactPage, linked via the Header."
-                            }
-                          ],
-                          "example": "In \`App.js\`, use \`react-router-dom\` to create \`Routes\` for each page and \`Link\` for navigation."
-                        }
-                      }
-                      \`\`\`
-                      `
+            content: `Please provide a detailed plan for creating a ${user_input}.
+              Ensure the response is in JSON format and includes components, pages, and APIs that need to be created.
+              - Important: Only provide a plan for now, no code for the next response.
+              - This is a React JS project, so page components should not contain any state logic and should consume the appWrapper component.
+              - The plan should include the necessary components, pages, and routing based on the user input, while the example structure must always be included as part of the response.
+              - Ensure that the required pages like App, Login and Register are included, along with other pages or components based on the user input.
+              - Here is the required plan structure:
+          
+              Example JSON plan:
+              \`\`\`json
+              {
+                "components": [
+                  {
+                    "name": "Header",
+                    "description": "A common header component used across all pages, including navigation links to the main routes."
+                  }
+                ],
+                "pages": [
+                  {
+                    "name": "LoginPage",
+                    "description": "Create a page for user login. This will include a form for username and password submission."
+                  },
+                  {
+                    "name": "App",
+                    "description": "n \`App.js\`, use \`react-router-dom\` to define the routes using \`<Routes>\` and \`<Route>\`. Use \`<Link>\` components in the Header for navigation"
+                  },
+                  {
+                    "name": "RegisterPage",
+                    "description": "Create a page for new user registration. This will include a form for user details like username, email, and password."
+                  },
+                  {
+                    "name": "HomePage",
+                    "description": "The default landing page of the application. It consumes the Header component and serves as an overview page."
+                  },
+                  {
+                    "name": "AboutUsPage",
+                    "description": "A page that provides details about the application or the organization. Consumes the Header component."
+                  }
+                ],
+                "routing": {
+                  "description": "Set up React Router in \`App.js\` to manage navigation between the pages. Render the Header on all pages where applicable.",
+                  "routes": [
+                    {
+                      "path": "/",
+                      "component": "HomePage",
+                      "description": "Default route for the HomePage."
+                    },
+                    {
+                      "path": "/login",
+                      "component": "LoginPage",
+                      "description": "Route for the LoginPage, allowing users to log in to the application."
+                    },
+                    {
+                      "path": "/register",
+                      "component": "RegisterPage",
+                      "description": "Route for the RegisterPage, allowing users to create a new account."
+                    },
+                    {
+                      "path": "/about",
+                      "component": "AboutUsPage",
+                      "description": "Route for the AboutUsPage, providing information about the app or organization."
+                    }
+                  ],
+                  "example": "In \`App.js\`, use \`react-router-dom\` to define the routes using \`<Routes>\` and \`<Route>\`. Use \`<Link>\` components in the Header for navigation."
+                },
+                "folderStructure": {
+                  "src": {
+                    "components": {
+                      "Header.js": "A reusable component for the header, including navigation links."
+                    },
+                    "pages": {
+                      "AboutUsPage.js": "Page providing information about the app or organization.",
+                      "HomePage.js": "Default landing page of the application.",
+                      "LoginPage.js": "Login page with form for username and password.",
+                      "RegisterPage.js": "Registration page with form for creating a new account."
+                    },
+                    "App.js": "Main entry file for the app, responsible for routing.",
+                    "index.js": "Main entry point for React to render the app.",
+                    "App.css": "General styles for the app, including the layout and appearance.",
+                    "logo.svg": "Logo for the application."
+                  }
+                }
+              }
+              \`\`\`
+          
+              - Based on the above example, add other pages, components, or routes required based on the specific user input.
+              - Ensure that all necessary pages and components are created and referenced appropriately in the plan.
+              `
           });
           let plan;
 

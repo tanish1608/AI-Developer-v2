@@ -1,0 +1,12 @@
+.container {
+max-width: 800px;
+margin: 0 auto;
+}
+
+.createButton {
+background-color: #4CAF50;
+color: #fff;
+padding: 10px 20px;
+border: none;
+cursor: pointer;
+}

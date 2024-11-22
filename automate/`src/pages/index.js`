@@ -1,0 +1,46 @@
+import React from "react";
+import AppWrapper from "../components/AppWrapper";
+import Layout from "../components/Layout";
+
+const Index = () => {
+const containerStyle = {
+maxWidth: "800px",
+margin: "20px auto",
+padding: "20px",
+backgroundColor: "#f0f0f0",
+borderRadius: "8px",
+textAlign: "center",
+fontFamily: "Arial, sans-serif",
+};
+
+const headingStyle = {
+fontSize: "32px",
+color: "#333",
+};
+
+return (
+<Layout>
+<div style={containerStyle}>
+<h1 style={headingStyle}>Todo App</h1>
+<AppWrapper />
+</div>
+</Layout>
+);
+};
+
+export default Index;
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Index from "./pages/index";
+
+function App() {
+return (
+<BrowserRouter>
+<Routes>
+<Route path="/" element={<Index />} />
+</Routes>
+</BrowserRouter>
+);
+}
+
+export default App;

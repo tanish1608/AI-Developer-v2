@@ -1,0 +1,61 @@
+import React from "react";
+import ReactDom from "react-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
+import TodoList from "./TodoList";
+import TodoInput from "./TodoInput";
+import TodoFilter from "./TodoFilter";
+import About from "./About";
+
+const App = () => {
+const appStyle = {
+maxWidth: "1200px",
+margin: "20px auto",
+padding: "20px",
+backgroundColor: "#f0f0f0",
+borderRadius: "8px",
+boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+};
+
+const headlineStyle = {
+fontSize: "24px",
+color: "#333",
+};
+
+const navStyle = {
+listStyle: "none",
+margin: "0",
+padding: "0",
+display: "flex",
+justifyContent: "space-between",
+};
+
+const navLinkStyle = {
+textDecoration: "none",
+color: "#007bff",
+cursor: "pointer",
+};
+
+return (
+<div style={appStyle}>
+<h1 style={headlineStyle}>Todo App</h1>
+<nav style={navStyle}>
+<ul>
+<li>
+<Link to="/" style={navLinkStyle}>
+Home
+</Link>
+</li>
+<li>
+<Link to="/about" style={navLinkStyle}>
+About
+</Link>
+</li>
+</ul>
+</nav>
+<Route path="/" exact component={TodoList} />
+<Route path="/about" component={About} />
+</div>
+);
+};
+
+export default App;
